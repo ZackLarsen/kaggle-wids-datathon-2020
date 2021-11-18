@@ -1,6 +1,17 @@
 # kaggle-wids-datathon-2020
 Kaggle competition for survival analysis, sponsored by Stanford
 
+
+# Research
+
+https://github.com/sebp/scikit-survival
+https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html
+
+https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_survivalanalysis/
+
+http://www.cs.columbia.edu/~blei/papers/RanganathPerotteElhadadBlei2016.pdf
+
+
 # Description
 
 In advance of the March 2, 2020 Global Women in Data Science (WiDS) Conference, we invite you to build a team, hone your data science skills, and join us in a predictive analytics challenge focused on social impact. Register at bit.ly/WiDSdatathon2020!
