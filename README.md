@@ -11,6 +11,8 @@ https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_surv
 
 http://www.cs.columbia.edu/~blei/papers/RanganathPerotteElhadadBlei2016.pdf
 
+https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+
 
 # Description
 
