@@ -4,12 +4,19 @@ Kaggle competition for survival analysis, sponsored by Stanford
 
 # Research
 
-https://github.com/sebp/scikit-survival
-https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html
-
 https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_survivalanalysis/
 
 http://www.cs.columbia.edu/~blei/papers/RanganathPerotteElhadadBlei2016.pdf
+
+https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+
+# Tools
+
+https://github.com/sebp/scikit-survival
+https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html
+https://github.com/square/pysurvival/
+
+https://rpkgs.datanovia.com/survminer/
 
 
 # Description
