@@ -1,3 +1,6 @@
 pandas
+numpy
 sklearn
 pandas_profiling
+jupyter-summarytools
+lifelines
