@@ -13,7 +13,9 @@ https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
 # Tools
 
 https://github.com/sebp/scikit-survival
+
 https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html
+
 https://github.com/square/pysurvival/
 
 https://rpkgs.datanovia.com/survminer/
@@ -45,10 +47,75 @@ For each encounter_id in the test set, you are asked to explore the columns of d
 A hospital_death value of 1 corresponds patient death and a value of 0 corresponds to survival.
 
 Your submission file should contain a header and have the following format:
-
-encounter_id,hospital_death
-1,0.814
-2,0.01
-3, 0.5
+* encounter_id, hospital_death
+* 1, 0.814
+* 2, 0.01
+* 3, 0.5
 
 etc.
+
+## Workflow
+
+```mermaid
+graph TD
+    subgraph Data Preparation
+    DI[Data Ingestion] --> DM[Data Modeling]
+    DM --> DC[Data Cleaning]
+    end
+
+    subgraph feature engineering
+    DC --> FC[Feature Crossing]
+    DC --> P[Polynomials]
+    DC --> DFS[Deep Feature Synthesis]
+    DC --> TF[Log Transformation]
+    DC --> EN[Feature Encoding]
+    DC --> BIN[Feature Binning]
+    DC --> AGG[Window Aggregation]
+    
+    FC --> MI[Model Input]
+    P --> MI
+    DFS --> MI
+    TF --> MI
+    EN --> MI
+    BIN --> MI
+    AGG --> MI
+    end
+
+    subgraph Data Splitting
+    MI --> TTS[Train Test Split]
+    TTS --> TR[Train]
+    TTS --> TE[Test]
+    TTS --> VAL[Validation]
+    end
+
+    subgraph Data Transformation
+    TR --> MDI[Missing Data Imputation]
+    TR --> FS[Feature Scaling]
+    MDI --> TD[Transformed Data]
+    FS --> TD
+    end
+    
+    subgraph Model Training
+    TD --> E1[Experiment 1]
+    E1 --> H1[Hyperparameter Tuning 1]
+    H1 --> M1[Model 1]
+
+    TD --> E2[Experiment 2]
+    E2 --> H2[Hyperparameter Tuning 2]
+    H2 --> M2[Model 2]
+    end
+
+    subgraph Model Evaluation
+    M1 --> P1[Model 1 Performance]
+    M2 --> P2[Model 2 Performance]
+    end
+
+    subgraph Model Selection
+    P1 --> BM[Best Model]
+    P2 --> BM
+    end
+
+    subgraph Model Deployment
+    BM --> DEP[Model Deployment]
+    end
+```
