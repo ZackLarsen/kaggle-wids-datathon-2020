@@ -1,8 +1,0 @@
-pandas
-numpy
-sklearn
-pandas_profiling
-jupyter-summarytools
-lifelines
-scikit-survival
-pyarrow
