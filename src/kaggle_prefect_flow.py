@@ -6,15 +6,19 @@ from pathlib import Path
 from prefect import flow, get_run_logger
 import polars as pl
 import polars.selectors as cs
-import pandas as pd
 import mlflow
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import xgboost as xgb
 
 
-data_path = "/Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020/data/"
+competition_path = Path("/Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020/")
+mlflow_path = Path(competition_path, "mlruns/")
+data_path = Path(competition_path, "data/")
 training_v2_path = Path(data_path, "training_v2.csv")
+
+mlflow.set_tracking_uri(mlflow_path)
+mlflow.xgboost.autolog()
 
 
 @flow
@@ -67,10 +71,18 @@ def save_splits(X_train, X_test, y_train, y_test):
 def train_model(X_train, y_train):
     logger = get_run_logger()
     logger.info("Training XGBoost classifier")
-    model = xgb.XGBClassifier()
-    model.fit(X_train, y_train)
 
-    return model
+    with mlflow.start_run() as run:
+        model = xgb.XGBClassifier()
+        model.fit(X_train.select(cs.numeric()), y_train)
+
+        run_id = run.info.run_id
+        # experiment_id = run.info.experiment_id
+        model_uri = f"runs:/{run_id}/model"
+        model_name = "XGBoost.json"
+        mlflow.register_model(model_uri, model_name)
+
+        return model
 
 
 @flow

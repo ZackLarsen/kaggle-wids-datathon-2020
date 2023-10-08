@@ -1,3 +1,19 @@
+# Random
+.DS_Store
+README_files/
+notebooks/.DS_Store
+notebooks/mlruns/
+notebooks/output.html
+notebooks/profiles/training_v2_profile.html
+notebooks/tmp/
+quarto-macos.pkg
+
+# MLflow
+*mlruns/*
+
+# Data
+data/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
