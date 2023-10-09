@@ -42,3 +42,6 @@ dependencies:
     - osqp  # This package needs cmake to be installed first. Use 'brew install cmake'
     - scikit-survival
     - prefect>=2.13.5
+    - lightgbm
+    - pycaret>=2.0.0
+    - tpot
