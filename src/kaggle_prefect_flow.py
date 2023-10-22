@@ -15,7 +15,7 @@ import xgboost as xgb
 competition_path = Path("/Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020/")
 mlflow_path = Path(competition_path, "mlruns/")
 data_path = Path(competition_path, "data/")
-training_v2_path = Path(data_path, "training_v2.csv")
+train_path = Path(data_path, "train.parquet")
 
 mlflow.set_tracking_uri(mlflow_path)
 mlflow.xgboost.autolog()
@@ -23,7 +23,7 @@ mlflow.xgboost.autolog()
 
 @flow
 def ingest(path):
-    data = pl.read_csv(path, infer_schema_length=10000, dtypes={"age": pl.Float32}, ignore_errors=True)
+    data = pl.read_parquet(path)
     logger = get_run_logger()
     logger.info("Data ingested")
 

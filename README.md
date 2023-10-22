@@ -47,6 +47,16 @@ To run the flow, first define the flow in kaggle_prefect_flow.py, then run the f
 python kaggle_prefect_flow.py
 ```
 
+To run the Prefect UI to inspect flows and flow runs, run the following command:
+
+```bash
+prefect server start
+```
+
+After the server is running, navigate to this URI in your browser to view the UI:
+
+- http://127.0.0.1:4200
+
 ## Workflow
 
 ```mermaid

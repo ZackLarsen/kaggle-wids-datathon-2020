@@ -11,6 +11,7 @@ dependencies:
     - pandas>2.0.0
     - pandas_dq
     - polars>0.19.0
+    - polars-cli
     # - duckdb
     # - dbt-duckdb
     - ipykernel
@@ -45,3 +46,8 @@ dependencies:
     - lightgbm
     - pycaret>=2.0.0
     - tpot
+    - missingno
+    - sidetable
+    - miceforest
+    - statsmodels
+    - pygwalker
