@@ -31,12 +31,21 @@ def ingest(path):
 
 
 @flow
-def calc_mean_age(data):
-    mean_age = data.select(pl.col("age")).mean().item()
+def clean(data):
     logger = get_run_logger()
-    logger.info(f"Mean age calculated as: {mean_age}")
+    # TODO Add cleaning steps
+    logger.info("Data cleaned")
 
-    return mean_age
+    return data
+
+
+@flow
+def featurize(data):
+    logger = get_run_logger()
+    # TODO Add featurization steps with featuretools
+    logger.info("Data featurized")
+
+    return data
 
 
 @flow
@@ -68,21 +77,34 @@ def save_splits(X_train, X_test, y_train, y_test):
 
 
 @flow
-def train_model(X_train, y_train):
+def transform(data):
     logger = get_run_logger()
-    logger.info("Training XGBoost classifier")
+    logger.info("Transforming data")
+    data = clean(data)
+    data = featurize(data)
 
+    return data
+
+
+@flow
+def train(X_train, y_train):
+    logger = get_run_logger()
+    model = xgb.XGBClassifier()
+    model.fit(X_train.select(cs.numeric()), y_train)
+    logger.info("XGBoost classifier trained")
+
+    return model
+
+
+@flow
+def register(model):
+    # TODO Fix this to use model object or somehow look up its URI
     with mlflow.start_run() as run:
-        model = xgb.XGBClassifier()
-        model.fit(X_train.select(cs.numeric()), y_train)
-
         run_id = run.info.run_id
         # experiment_id = run.info.experiment_id
         model_uri = f"runs:/{run_id}/model"
         model_name = "XGBoost.json"
         mlflow.register_model(model_uri, model_name)
-
-        return model
 
 
 @flow
@@ -95,7 +117,7 @@ def predict(model, test_data):
 
 
 @flow
-def evaluate_model(y_test, y_pred):
+def evaluate(y_test, y_pred):
     logger = get_run_logger()
     logger.info("Evaluating model performance")
     accuracy = accuracy_score(y_test, y_pred)
@@ -108,17 +130,18 @@ def evaluate_model(y_test, y_pred):
 
 
 @flow
-def prep_workflow(file_path):
+def run(file_path):
     data = ingest(file_path)
-    mean_age = calc_mean_age(data)
-    X_train, X_test, y_train, y_test = split(data, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = split(
+        data,
+        test_size=0.2,
+        random_state=42)
     save_splits(X_train, X_test, y_train, y_test)
-    clf = train_model(X_train.select(cs.numeric()), y_train)
+    clf = train(X_train.select(cs.numeric()), y_train)
     y_pred = predict(clf, X_test.select(cs.numeric()))
-    accuracy, precision, recall, f1, roc_auc = evaluate_model(y_test, y_pred)
+    accuracy, precision, recall, f1, roc_auc = evaluate(y_test, y_pred)
 
     result_dict = {
-        'mean_age': mean_age,
         'accuracy': accuracy,
         'precision': precision,
         'recall': recall,

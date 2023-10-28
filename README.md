@@ -57,6 +57,64 @@ After the server is running, navigate to this URI in your browser to view the UI
 
 - http://127.0.0.1:4200
 
+## MLflow Recipes Classification Template
+
+MLflow has something called [Recipes](https://mlflow.org/docs/latest/recipes.html) that provides a template for a DAG that can be used to train and evaluate a model. These steps happen in a sequence that helps to ensure there is no target leakage and assists with refactoring the data preparation and model training steps into a robust workflow.
+
+The template is shown below:
+
+![MLflow Recipes Classification Template](https://mlflow.org/docs/latest/_images/recipes_databricks_dag.png)
+
+## Adapting Prefect workflow to MLflow Recipes
+
+```mermaid
+flowchart TD
+
+    in[ingest]
+    cl[clean]
+    ft[featurize]
+    sp[split]
+    tf[transform]
+    tr[train]
+    pr[predict]
+    ev[evaluate]
+    rg[register]
+
+    id{{ingested_data}}
+    cld{{cleaned_data}}
+    fd{{featurized_data}}
+    trd{{train_data}}
+    ted{{test_data}}
+    vald{{validation_data}}
+    tfd{{transformed_data}}
+    prd{{predictions}}
+
+    m[(model)]
+    mlfm[(mlflow model registry)]
+
+    in --> id
+    id --> cl
+    cl --> cld
+    cld --> ft
+    ft --> fd
+    fd --> sp
+
+    sp --> trd
+    sp --> ted
+    sp --> vald
+
+    trd --> tf --> tfd
+    tfd --> tr --> m --> rg
+    rg --> mlfm
+    
+    m --> pr --> prd
+
+    prd --> ev
+    ted --> ev
+    vald --> ev
+
+```
+
 ## Workflow
 
 ```mermaid
