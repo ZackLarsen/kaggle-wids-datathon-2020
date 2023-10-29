@@ -1,8 +1,16 @@
 """
 Use Prefect to orchestrate the Kaggle competition pipeline.
+
+Uses Hydra for configuration management.
+
+Uses MLflow for model tracking.
 """
 
+# import logging
 from pathlib import Path
+
+from hydra import compose, initialize
+from omegaconf import OmegaConf, DictConfig
 from prefect import flow, get_run_logger
 import polars as pl
 import polars.selectors as cs
@@ -12,21 +20,11 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import xgboost as xgb
 
 
-competition_path = Path("/Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020/")
-mlflow_path = Path(competition_path, "mlruns/")
-data_path = Path(competition_path, "data/")
-train_path = Path(data_path, "train.parquet")
-
-mlflow.set_tracking_uri(mlflow_path)
-mlflow.xgboost.autolog()
-
-
 @flow
 def ingest(path):
     data = pl.read_parquet(path)
     logger = get_run_logger()
     logger.info("Data ingested")
-
     return data
 
 
@@ -58,16 +56,18 @@ def split(data, test_size=0.2, random_state=42):
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state)
 
-    logger.info("Size of train set: {X_train.shape}")
-    logger.info("Size of test set: {X_test.shape}")
+    logger.info(f"Size of X_train: {X_train.shape}")
+    logger.info(f"Size of X_test: {X_test.shape}")
+    logger.info(f"Size of y_train: {y_train.shape}")
+    logger.info(f"Size of y_test: {y_test.shape}")
 
     return X_train, X_test, y_train, y_test
 
 
 @flow
-def save_splits(X_train, X_test, y_train, y_test):
+def save_splits(data_path, X_train, X_test, y_train, y_test):
     logger = get_run_logger()
-    logger.info("Saving splits")
+    logger.info(f"Saving splits to {data_path}")
     X_train.write_parquet(Path(data_path, 'X_train.parquet'))
     pl.DataFrame(y_train).write_parquet(Path(data_path, 'y_train.parquet'))
     X_test.write_parquet(Path(data_path, 'X_test.parquet'))
@@ -87,7 +87,9 @@ def transform(data):
 
 
 @flow
-def train(X_train, y_train):
+def train(mlflow_path, X_train, y_train):
+    mlflow.set_tracking_uri(mlflow_path)
+    mlflow.xgboost.autolog()
     logger = get_run_logger()
     model = xgb.XGBClassifier()
     model.fit(X_train.select(cs.numeric()), y_train)
@@ -130,23 +132,46 @@ def evaluate(y_test, y_pred):
 
 
 @flow
-def run(file_path):
-    data = ingest(file_path)
+def run_flow(cfg: DictConfig) -> None:
+    logger = get_run_logger()
+    data_path = Path(cfg.paths.data)
+    train_data_path = Path(cfg.paths.data.train)
+
+    # mlflow.set_tracking_uri(mlflow_path)
+    # mlflow.xgboost.autolog()
+    # mlflow_path = Path(cfg.paths.mlflow)
+
+    data = ingest(train_data_path)
+    logger.info(f"Shape of data: {data.shape}")
+
     X_train, X_test, y_train, y_test = split(
         data,
         test_size=0.2,
         random_state=42)
-    save_splits(X_train, X_test, y_train, y_test)
-    clf = train(X_train.select(cs.numeric()), y_train)
-    y_pred = predict(clf, X_test.select(cs.numeric()))
-    accuracy, precision, recall, f1, roc_auc = evaluate(y_test, y_pred)
 
-    result_dict = {
-        'accuracy': accuracy,
-        'precision': precision,
-        'recall': recall,
-        'f1': f1,
-        'roc_auc': roc_auc
-    }
+    save_splits(data_path, X_train, X_test, y_train, y_test)
 
-    return result_dict
+    # clf = train(X_train.select(cs.numeric()), y_train)
+    # register(clf)
+    # y_pred = predict(clf, X_test.select(cs.numeric()))
+    # accuracy, precision, recall, f1, roc_auc = evaluate(y_test, y_pred)
+
+    # result_dict = {
+    #     'accuracy': accuracy,
+    #     'precision': precision,
+    #     'recall': recall,
+    #     'f1': f1,
+    #     'roc_auc': roc_auc
+    # }
+
+    # return result_dict
+    logger.info("Run completed")
+
+
+if __name__ == "__main__":
+    with initialize(version_base="1.3.2",
+                    config_path="config",
+                    job_name="test_flow"):
+        cfg = compose(config_name="config")
+        print(OmegaConf.to_yaml(cfg))
+        run_flow(cfg)

@@ -6,6 +6,9 @@ dependencies:
   - python=3.10
   - pip
   - pip:
+    - omegaconf
+    - hydra-core
+    - hydra-zen
     - numpy>1.19.0
     - pyarrow
     - pandas>2.0.0
@@ -42,7 +45,7 @@ dependencies:
     - scipy>1.5.0
     - osqp  # This package needs cmake to be installed first. Use 'brew install cmake'
     - scikit-survival
-    - prefect>=2.13.5
+    - prefect[viz]>=2.13.5
     - lightgbm
     - pycaret>=2.0.0
     - tpot

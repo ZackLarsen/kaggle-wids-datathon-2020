@@ -191,20 +191,30 @@ graph TD
 kaggle competitions download -c widsdatathon2020
 ```
 
-## Research
+## Research & Resources
 
-https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_survivalanalysis/
+[Khuyen Tran Prefect](https://khuyentran1401.github.io/reproducible-data-science/orchestration/prefect.html)
 
-http://www.cs.columbia.edu/~blei/papers/RanganathPerotteElhadadBlei2016.pdf
+[Towards Data Science Khuyen Tran Prefect Data Science Orchestration](https://towardsdatascience.com/orchestrate-a-data-science-project-in-python-with-prefect-e69c61a49074)
 
-https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+[Towards Data Science Hydra Tutorial](https://towardsdatascience.com/complete-tutorial-on-how-to-use-hydra-in-machine-learning-projects-1c00efcc5b9b)
 
 ## Tools
 
-https://github.com/sebp/scikit-survival
+[Prefect](https://docs.prefect.io/2.14.2/)
 
-https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html
+[Hydra](https://hydra.cc/)
 
-https://github.com/square/pysurvival/
+[Hydra Compose API](https://hydra.cc/docs/next/advanced/compose_api)
 
-https://rpkgs.datanovia.com/survminer/
+[MLflow Recipes](https://mlflow.org/docs/latest/recipes.html)
+
+[scikit-survival GitHub](https://github.com/sebp/scikit-survival)
+
+[scikit-survival docs](https://scikit-survival.readthedocs.io/en/stable/user_guide/00-introduction.html)
+
+[Lifelines](https://lifelines.readthedocs.io/en/latest/)
+
+[PySurvival](https://github.com/square/pysurvival/)
+
+[Survminer](https://rpkgs.datanovia.com/survminer/)

@@ -1,0 +1,21 @@
+---
+train_test_split:
+  test_pct: 0.2
+  random_state: 42
+
+base_path: /Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020/
+data_path: ${base_path}/data/
+model_path: ${base_path}/models/
+paths:
+  mlflow:
+    mlruns: ${base_path}/mlruns/
+  data:
+    clean: ${data_path}/clean.parquet
+    train: ${data_path}/train.parquet
+    test: ${data_path}/test.parquet
+  models:
+    xgboost: ${model_path}/xgboost/
+    lightgbm: ${model_path}/lightgbm/
+    catboost: ${model_path}/catboost/
+    pycaret: ${model_path}/pycaret/
+    tpot: ${model_path}/tpot/
