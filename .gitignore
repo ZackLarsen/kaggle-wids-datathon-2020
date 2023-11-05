@@ -1,4 +1,5 @@
 # Random
+outputs/
 .DS_Store
 README_files/
 notebooks/.DS_Store
@@ -13,6 +14,9 @@ quarto-macos.pkg
 
 # Data
 data/*
+
+# Images
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

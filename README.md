@@ -191,6 +191,15 @@ graph TD
 kaggle competitions download -c widsdatathon2020
 ```
 
+```python
+import kaggle
+import os
+
+os.system('kaggle competitions download -c wids2020 -p .kaggle')
+
+os.system('unzip destination-path/competition-name.zip -d /data/')
+```
+
 ## Research & Resources
 
 [Khuyen Tran Prefect](https://khuyentran1401.github.io/reproducible-data-science/orchestration/prefect.html)
