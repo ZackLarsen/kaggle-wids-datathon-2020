@@ -1,8 +1,12 @@
 import polars as pl
+from prefect import flow, get_run_logger
 from hydra import compose, initialize
 
 
+@flow
 def ingest_raw_data(cfg):
+    logger = get_run_logger()
+    logger.info("Ingesting raw data")
     raw_path = cfg.paths.data.raw
     raw_data = pl.read_csv(raw_path, infer_schema_length=10000)
 

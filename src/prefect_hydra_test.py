@@ -4,13 +4,15 @@ Use Prefect to orchestrate flows and use Hydra to manage configuration.
 
 import hydra
 from hydra import compose, initialize
-from omegaconf import OmegaConf, DictConfig
+from omegaconf import DictConfig
 from prefect import flow, get_run_logger
 
-from ingest_data import ingest_raw_data
-from clean_data import clean
-from split_data import split, save_splits
+from ingest import ingest_raw_data
+from clean import clean
+from split import split, save_splits
 from transform import transform
+from train import train
+from evaluate import evaluate
 
 
 @flow
@@ -23,7 +25,9 @@ def run_flow(cfg: DictConfig) -> None:
     save_splits(cfg, splits)
     X_train = splits['X_train']
     y_train = splits['y_train']
-    transform(cfg, X=X_train, y=y_train)
+    X_transformed = transform(cfg, X=X_train, y=y_train)
+    model = train(X_transformed, y_train)
+    metrics = evaluate(model, X_transformed, y_train)
     logger.info("Done!")
 
 

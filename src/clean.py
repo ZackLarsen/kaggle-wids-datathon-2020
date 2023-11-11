@@ -1,5 +1,5 @@
 """
-clean_data.py
+clean.py
 
 This script preprocesses the data used for modeling.
 
@@ -10,10 +10,7 @@ Steps:
 """
 
 from prefect import flow, get_run_logger
-from hydra import compose, initialize
 import polars as pl
-import polars.selectors as cs
-import pandas as pd
 from skimpy import clean_columns
 
 

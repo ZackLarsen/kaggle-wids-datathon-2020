@@ -1,5 +1,5 @@
 """
-split_data.py
+split.py
 
 Splits model_input data into train/validation/test
 """
