@@ -185,6 +185,12 @@ graph TD
     end
 ```
 
+## Defining and installing the environment
+
+```bash
+mamba env update --file environment.yaml --prune
+```
+
 ## Using Kaggle API
 
 ```bash

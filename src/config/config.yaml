@@ -3,9 +3,18 @@ target_var: 'hospital_death'
 
 train_test_split:
   random_state: 42
-  train_ratio: 0.7
+  train_ratio: 0.6
   validation_ratio: 0.15
-  test_ratio: 0.15
+  test_ratio: 0.25
+
+numeric_features:
+  - 'pre_icu_los_days'
+
+categorical_features:
+  - 'gender'
+  - 'ethnicity'
+  - 'hospital_admit_source'
+  - 'icu_admit_source'
 
 base_path: /Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020
 data_path: ${base_path}/data

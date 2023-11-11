@@ -13,6 +13,7 @@ dependencies:
     - pyarrow
     - pandas>2.0.0
     - pandas_dq
+    - skimpy
     - polars>0.19.0
     - polars-cli
     # - duckdb
@@ -30,7 +31,6 @@ dependencies:
     - plotly
     - ydata_profiling
     - jupyter-summarytools
-    - pandas_dq
     - scikit-learn>1.2.0
     - mlflow>2.0.0
     - lifelines

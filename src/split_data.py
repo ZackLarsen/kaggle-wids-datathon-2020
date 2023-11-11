@@ -4,25 +4,31 @@ split_data.py
 Splits model_input data into train/validation/test
 """
 
-from pathlib import Path
-
 import polars as pl
 from prefect import flow, get_run_logger
 from sklearn.model_selection import train_test_split
 
 
 @flow
-def split(cfg, data, random_state=42):
+def split(cfg, data):
     logger = get_run_logger()
-    logger.info("Splitting data into train and test sets")
+
     target_var = cfg.target_var
+    random_state = cfg.train_test_split.random_state
+    train_ratio = cfg.train_test_split.train_ratio
+    validation_ratio = cfg.train_test_split.validation_ratio
+    test_ratio = cfg.train_test_split.test_ratio
+
+    assert train_ratio + validation_ratio + test_ratio == 1, \
+        """train_ratio, validation_ratio, and test_ratio must sum to 1"""
 
     X = data.drop(target_var)
     y = data.select(pl.col(target_var))
 
-    train_ratio = 0.75
-    validation_ratio = 0.15
-    test_ratio = 0.10
+    logger.info("Splitting data into train, validation, and test sets")
+    logger.info(f"train_ratio: {train_ratio}")
+    logger.info(f"validation_ratio: {validation_ratio}")
+    logger.info(f"test_ratio: {test_ratio}")
 
     X_train, X_test, y_train, y_test = \
         train_test_split(
@@ -72,6 +78,6 @@ def save_splits(cfg, splits):
     splits['y_val'].write_parquet(y_validation_path)
     splits['y_test'].write_parquet(y_test_path)
 
-    logger.info("Saved splits to {cfg.paths.data}")
+    logger.info(f"Saved splits to {cfg.paths.data}")
 
     return None
