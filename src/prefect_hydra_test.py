@@ -13,6 +13,7 @@ from split import split, save_splits
 from transform import transform
 from train import train
 from evaluate import evaluate
+from predict import predict
 
 
 @flow
@@ -27,7 +28,8 @@ def run_flow(cfg: DictConfig) -> None:
     y_train = splits['y_train']
     X_transformed = transform(cfg, X=X_train, y=y_train)
     model = train(X_transformed, y_train)
-    metrics = evaluate(model, X_transformed, y_train)
+    y_pred = predict(model, X_transformed)
+    evaluate(y_train, y_pred)
     logger.info("Done!")
 
 
