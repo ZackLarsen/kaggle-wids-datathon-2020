@@ -38,10 +38,10 @@ def split(cfg, data, random_state=42):
             test_size=test_ratio/(test_ratio + validation_ratio),
             random_state=random_state)
 
-    logger.info("Size of data: {data.shape}")
-    logger.info("Size of X_train: {X_train.shape}")
-    logger.info("Size of X_val: {X_val.shape}")
-    logger.info("Size of X_test: {X_test.shape}")
+    logger.info(f"Size of data: {data.shape}")
+    logger.info(f"Size of X_train: {X_train.shape}")
+    logger.info(f"Size of X_val: {X_val.shape}")
+    logger.info(f"Size of X_test: {X_test.shape}")
 
     splits = {
         'X_train': X_train,
