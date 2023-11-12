@@ -38,5 +38,4 @@ if __name__ == "__main__":
                     config_path="config",
                     job_name="test_flow"):
         cfg = compose(config_name="config")
-        # print(OmegaConf.to_yaml(cfg))
         run_flow(cfg)
