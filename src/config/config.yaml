@@ -23,7 +23,9 @@ paths:
   mlflow:
     mlruns: ${base_path}/mlruns
   data:
+    dictionary: ${data_path}/WiDS Datathon 2020 Dictionary.csv
     raw: ${data_path}/training_v2.csv
+    typesafe: ${data_path}/typesafe.parquet
     clean: ${data_path}/clean.parquet
     X_train: ${data_path}/X_train.parquet
     X_test: ${data_path}/X_test.parquet

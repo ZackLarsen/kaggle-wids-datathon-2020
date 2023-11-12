@@ -32,14 +32,15 @@ dependencies:
     - ydata_profiling
     - jupyter-summarytools
     - scikit-learn>1.2.0
+    - yellowbrick
     - mlflow>2.0.0
     - lifelines
     - kaggle
     - xgboost
     - regex
     - featuretools
-    - feature-engine
     - woodwork
+    - feature-engine
     # Dependencies for scikit-survival that need to be installed before installing scikit-survival:
     - joblib
     - scipy>1.5.0

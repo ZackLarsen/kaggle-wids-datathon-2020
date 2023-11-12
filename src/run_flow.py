@@ -8,11 +8,12 @@ from omegaconf import DictConfig
 from prefect import flow, get_run_logger
 
 from ingest import ingest_raw_data
+from type import enforce_schema
 from clean import clean
 from split import split
 from transform import transform
 from train import train
-from evaluate import evaluate
+from evaluate import evaluate, plot_threshold
 from predict import predict
 from format import format_preds
 from save import save_splits, save_transforms, save_preds, save_submission
@@ -23,6 +24,7 @@ from save import save_splits, save_transforms, save_preds, save_submission
 def run_flow(cfg: DictConfig) -> None:
     logger = get_run_logger()
     raw_data = ingest_raw_data(cfg)
+    enforce_schema(cfg, raw_data)
     clean_data = clean(raw_data)
     splits = split(cfg, clean_data)
     save_splits(cfg, splits)
@@ -34,6 +36,7 @@ def run_flow(cfg: DictConfig) -> None:
     y_pred = predict(model, X_transformed)
     save_preds(cfg, y_pred)
     evaluate(y_train, y_pred)
+    plot_threshold(model, X_transformed, y_train)
     formatted_preds = format_preds(cfg, X_transformed, y_pred)
     save_submission(cfg, formatted_preds)
     logger.info("Done!")
