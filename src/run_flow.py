@@ -9,11 +9,13 @@ from prefect import flow, get_run_logger
 
 from ingest import ingest_raw_data
 from clean import clean
-from split import split, save_splits
+from split import split
 from transform import transform
 from train import train
 from evaluate import evaluate
 from predict import predict
+from format import format_preds
+from save import save_splits, save_transforms, save_preds, save_submission
 
 
 @flow
@@ -27,9 +29,13 @@ def run_flow(cfg: DictConfig) -> None:
     X_train = splits['X_train']
     y_train = splits['y_train']
     X_transformed = transform(cfg, X=X_train, y=y_train)
+    save_transforms(cfg, X_transformed)
     model = train(X_transformed, y_train)
     y_pred = predict(model, X_transformed)
+    save_preds(cfg, y_pred)
     evaluate(y_train, y_pred)
+    formatted_preds = format_preds(cfg, X_transformed, y_pred)
+    save_submission(cfg, formatted_preds)
     logger.info("Done!")
 
 

@@ -31,6 +31,9 @@ paths:
     y_train: ${data_path}/y_train.parquet
     y_test: ${data_path}/y_test.parquet
     y_validation: ${data_path}/y_validation.parquet
+    X_transformed: ${data_path}/X_transformed.parquet
+    y_pred: ${data_path}/y_pred.parquet
+    submission: ${data_path}/submission.csv
   models:
     xgboost: ${model_path}/xgboost
     lightgbm: ${model_path}/lightgbm

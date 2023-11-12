@@ -59,25 +59,3 @@ def split(cfg, data):
     }
 
     return splits
-
-
-@flow
-def save_splits(cfg, splits):
-    logger = get_run_logger()
-    X_train_path = cfg.paths.data.X_train
-    X_test_path = cfg.paths.data.X_test
-    X_validation_path = cfg.paths.data.X_validation
-    y_train_path = cfg.paths.data.y_train
-    y_test_path = cfg.paths.data.y_test
-    y_validation_path = cfg.paths.data.y_validation
-
-    splits['X_train'].write_parquet(X_train_path)
-    splits['X_val'].write_parquet(X_validation_path)
-    splits['X_test'].write_parquet(X_test_path)
-    splits['y_train'].write_parquet(y_train_path)
-    splits['y_val'].write_parquet(y_validation_path)
-    splits['y_test'].write_parquet(y_test_path)
-
-    logger.info(f"Saved splits to {cfg.paths.data}")
-
-    return None
