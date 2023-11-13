@@ -32,7 +32,10 @@ dependencies:
     - ydata_profiling
     - jupyter-summarytools
     - scikit-learn>1.2.0
+    - onnxruntime
+    - skl2onnx
     - yellowbrick
+    - explainerdashboard
     - mlflow>2.0.0
     - lifelines
     - kaggle

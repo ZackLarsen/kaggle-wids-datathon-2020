@@ -6,6 +6,9 @@ Saves parquet files to disk
 
 import polars as pl
 from prefect import flow, get_run_logger
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+from onnx import save_model as save_model_onnx
 
 
 @flow
@@ -19,10 +22,10 @@ def save_splits(cfg, splits):
     y_validation_path = cfg.paths.data.y_validation
 
     splits['X_train'].write_parquet(X_train_path)
-    splits['X_val'].write_parquet(X_validation_path)
+    splits['X_validation'].write_parquet(X_validation_path)
     splits['X_test'].write_parquet(X_test_path)
     splits['y_train'].write_parquet(y_train_path)
-    splits['y_val'].write_parquet(y_validation_path)
+    splits['y_validation'].write_parquet(y_validation_path)
     splits['y_test'].write_parquet(y_test_path)
 
     logger.info(f"Saved splits to {cfg.paths.data}")
@@ -31,11 +34,24 @@ def save_splits(cfg, splits):
 
 
 @flow
-def save_transforms(cfg, X_transformed):
+def save_transforms(X_transformed, transform_path):
     logger = get_run_logger()
-    X_transformed_path = cfg.paths.data.X_transformed
-    X_transformed.write_parquet(X_transformed_path)
-    logger.info(f"Saved transformed data to {X_transformed_path}")
+    X_transformed.write_parquet(transform_path)
+    logger.info(f"Saved transformed data to {transform_path}")
+
+    return None
+
+
+@flow
+def save_model(cfg, model):
+    logger = get_run_logger()
+    model_path = cfg.paths.models.lr
+    initial_type = [('float_input', FloatTensorType([None, model.coef_.shape[1]]))]
+    onnx_model = convert_sklearn(model, initial_types=initial_type)
+    with open(model_path, "wb") as f:
+        save_model_onnx(onnx_model, f)
+
+    logger.info(f"Saved model to {model_path}")
 
     return None
 

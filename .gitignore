@@ -12,6 +12,9 @@ quarto-macos.pkg
 # MLflow
 *mlruns/*
 
+# Models
+*.onnx
+
 # Data
 data/*
 

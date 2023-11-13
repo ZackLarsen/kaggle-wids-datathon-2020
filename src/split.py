@@ -37,7 +37,7 @@ def split(cfg, data):
             test_size=1 - train_ratio,
             random_state=random_state)
 
-    X_val, X_test, y_val, y_test = \
+    X_validation, X_test, y_validation, y_test = \
         train_test_split(
             X_test,
             y_test,
@@ -46,15 +46,15 @@ def split(cfg, data):
 
     logger.info(f"Size of data: {data.shape}")
     logger.info(f"Size of X_train: {X_train.shape}")
-    logger.info(f"Size of X_val: {X_val.shape}")
+    logger.info(f"Size of X_validation: {X_validation.shape}")
     logger.info(f"Size of X_test: {X_test.shape}")
 
     splits = {
         'X_train': X_train,
-        'X_val': X_val,
+        'X_validation': X_validation,
         'X_test': X_test,
         'y_train': y_train,
-        'y_val': y_val,
+        'y_validation': y_validation,
         'y_test': y_test
     }
 

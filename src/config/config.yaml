@@ -28,15 +28,18 @@ paths:
     typesafe: ${data_path}/typesafe.parquet
     clean: ${data_path}/clean.parquet
     X_train: ${data_path}/X_train.parquet
+    X_train_transformed: ${data_path}/X_train_transformed.parquet
     X_test: ${data_path}/X_test.parquet
+    X_test_transformed: ${data_path}/X_test_transformed.parquet
     X_validation: ${data_path}/X_validation.parquet
+    X_validation_transformed: ${data_path}/X_validation_transformed.parquet
     y_train: ${data_path}/y_train.parquet
     y_test: ${data_path}/y_test.parquet
     y_validation: ${data_path}/y_validation.parquet
-    X_transformed: ${data_path}/X_transformed.parquet
     y_pred: ${data_path}/y_pred.parquet
     submission: ${data_path}/submission.csv
   models:
+    lr: ${model_path}/lr/lr_clf.onnx
     xgboost: ${model_path}/xgboost
     lightgbm: ${model_path}/lightgbm
     catboost: ${model_path}/catboost
