@@ -18,26 +18,30 @@ categorical_features:
 
 base_path: /Users/zacklarsen/Documents/Projects/kaggle-wids-datathon-2020
 data_path: ${base_path}/data
+raw_data_path: ${data_path}/raw
+processed_data_path: ${data_path}/processed
 model_path: ${base_path}/models
 paths:
   mlflow:
     mlruns: ${base_path}/mlruns
   data:
-    dictionary: ${data_path}/WiDS Datathon 2020 Dictionary.csv
-    raw: ${data_path}/training_v2.csv
-    typesafe: ${data_path}/typesafe.parquet
-    clean: ${data_path}/clean.parquet
-    X_train: ${data_path}/X_train.parquet
-    X_train_transformed: ${data_path}/X_train_transformed.parquet
-    X_test: ${data_path}/X_test.parquet
-    X_test_transformed: ${data_path}/X_test_transformed.parquet
-    X_validation: ${data_path}/X_validation.parquet
-    X_validation_transformed: ${data_path}/X_validation_transformed.parquet
-    y_train: ${data_path}/y_train.parquet
-    y_test: ${data_path}/y_test.parquet
-    y_validation: ${data_path}/y_validation.parquet
-    y_pred: ${data_path}/y_pred.parquet
-    submission: ${data_path}/submission.csv
+    dictionary: ${raw_data_path}/WiDS Datathon 2020 Dictionary.csv
+    train_raw: ${raw_data_path}/training_v2.csv
+    test_raw: ${raw_data_path}/unlabeled.csv
+    train_typed: ${processed_data_path}/train_typed.parquet
+    test_typed: ${processed_data_path}/test_typed.parquet
+    train_clean: ${processed_data_path}/train_clean.parquet
+    X_train: ${processed_data_path}/X_train.parquet
+    X_train_transformed: ${processed_data_path}/X_train_transformed.parquet
+    X_test: ${processed_data_path}/X_test.parquet
+    X_test_transformed: ${processed_data_path}/X_test_transformed.parquet
+    X_validation: ${processed_data_path}/X_validation.parquet
+    X_validation_transformed: ${processed_data_path}/X_validation_transformed.parquet
+    y_train: ${processed_data_path}/y_train.parquet
+    y_test: ${processed_data_path}/y_test.parquet
+    y_validation: ${processed_data_path}/y_validation.parquet
+    y_pred: ${processed_data_path}/y_pred.parquet
+    submission: ${processed_data_path}/submission.csv
   models:
     lr: ${model_path}/lr/lr_clf.onnx
     xgboost: ${model_path}/xgboost

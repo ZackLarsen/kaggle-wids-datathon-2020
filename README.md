@@ -57,6 +57,9 @@ After the server is running, navigate to this URI in your browser to view the UI
 
 - http://127.0.0.1:4200
 
+## SKLearn Pipeline
+![Pipeline](https://i.stack.imgur.com/uR1Wt.png)
+
 ## MLflow Recipes Classification Template
 
 MLflow has something called [Recipes](https://mlflow.org/docs/latest/recipes.html) that provides a template for a DAG that can be used to train and evaluate a model. These steps happen in a sequence that helps to ensure there is no target leakage and assists with refactoring the data preparation and model training steps into a robust workflow.

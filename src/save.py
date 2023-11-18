@@ -12,6 +12,14 @@ from onnx import save_model as save_model_onnx
 
 
 @flow
+def save_typed_data(cfg, typed_data, path):
+    logger = get_run_logger()
+    logger.info(f"Writing typed data to {path}")
+    typed_data.write_parquet(path)
+    return None
+
+
+@flow
 def save_splits(cfg, splits):
     logger = get_run_logger()
     X_train_path = cfg.paths.data.X_train

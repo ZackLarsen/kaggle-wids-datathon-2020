@@ -6,7 +6,6 @@ data columns.
 """
 
 import polars as pl
-import polars.selectors as cs
 from prefect import flow, get_run_logger
 
 
@@ -76,7 +75,4 @@ def enforce_schema(cfg, raw_data: pl.DataFrame) -> pl.DataFrame:
         .with_columns(pl.col(boolean_cols).cast(pl.Boolean))
     )
 
-    logger.info(f"Writing typesafe data to {cfg.paths.data.typesafe}")
-    correctly_typed_data.write_parquet(cfg.paths.data.typesafe)
-
-    return None
+    return correctly_typed_data

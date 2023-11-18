@@ -38,8 +38,13 @@ def transform(cfg, X, y):
         ])
 
     pipeline = Pipeline(steps=[('preprocessor', preprocessor)])
+    return pipeline
 
-    logger.info("Fitting the pipeline on the training data")
+
+@flow
+def fit_transform(pipeline, X, y):
+    logger = get_run_logger()
+    logger.info("Fitting the pipeline on the input data")
     pipeline.fit(X.to_pandas(), y.to_pandas())
     logger.info("Applying transformations using fitted pipeline")
     X_preprocessed = pipeline.transform(X.to_pandas())
